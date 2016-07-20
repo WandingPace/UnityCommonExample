@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Tutorials>
+	
+	<Tutorial ID="1" Triggers="GameStartTutorialTrigger()">
+		<Step ID="1">
+			<OnResumeAction></OnResumeAction>
+			<Action>ShowMask()</Action>
+			<Action>SetupMask(0,400,500,200)</Action>
+			<Action>SetForeground(common_dialogue_2,0,0,936,288)</Action>
+			<Action>SetActive(UIManager/TutorialPanel/TutorialCanvasGroup/TutorialFG/ArrowL,true)</Action>
+			<Action>SetActive(UIManager/TutorialPanel/TutorialCanvasGroup/TutorialFG/ArrowR,false)</Action>
+			<Action>SetLocalPosition(UIManager/TutorialPanel/TutorialCanvasGroup/TutorialFG/ArrowL,-150,22,0)</Action>
+			<Action>SetContent(LOC_TUTORIAL_ENTER_STORY,0,0,800,200)</Action>
+			<PostStepAction>HideMask()</PostStepAction>
+			<PostStepAction>SetForeground(,0,0,0,0)</PostStepAction>
+			<PostStepAction>SetContent()</PostStepAction>
+			<NextStepCondition>WaitForScreen(STORY)</NextStepCondition>
+		</Step>
+		<Step ID="2">
+			<OnResumeAction></OnResumeAction>
+			<Action>EnterPVELevel(1001)</Action>
+			<Action>SkipCurrentStep()</Action>
+			<NextStepCondition>WaitForScreen(LEVEL)</NextStepCondition>
+		</Step>
+		<Step ID="3">
+			<OnResumeAction></OnResumeAction>
+			<Action>HideMask()</Action>
+			<Action>FreezeLevelTimer()</Action>
+			<Action>SetupHintDisplayDelay(1.0)</Action>
+			<Action>ShowArrowOnHint()</Action>
+			<Action>SetForeground(common_tips 1,0,0,960,190)</Action>
+			<Action>SetActive(UIManager/TutorialPanel/TutorialCanvasGroup/TutorialFG/ArrowL,false)</Action>
+			<Action>SetActive(UIManager/TutorialPanel/TutorialCanvasGroup/TutorialFG/ArrowR,false)</Action>
+			<Action>SetContent(LOC_TUTORIAL_CHAPTER_1_LEVEL_1_JC_1,0,0,800,140)</Action>
+			<Action>SkipCurrentStep()</Action>
+			<NextStepCondition>ReachLevelScore(100)</NextStepCondition>
+		</Step>
+		<Step ID="4">
+			<OnResumeAction></OnResumeAction>
+			<Action>SetForeground(,0,0,0,0)</Action>
+			<Action>SetContent()</Action>
+			<Action>SkipCurrentStep()</Action>
+			<NextStepCondition>ReachLevelStar(3)</NextStepCondition>
+		</Step>
+		<Step ID="5">
+			<OnResumeAction></OnResumeAction>
+			<Action>EndPVELevel()</Action>
+			<Action>SkipCurrentStep()</Action>
+			<NextStepCondition>WaitForScreen(STORY)</NextStepCondition>
+		</Step>
+		<Step ID="6">
+			<OnResumeAction></OnResumeAction>
+			<Action>EnterPVELevel(1002)</Action>
+			<Action>SkipCurrentStep()</Action>
+			<NextStepCondition>WaitForScreen(LEVEL)</NextStepCondition>
+		</Step>
+	</Tutorial>
+	
+  <Tutorial ID="2" Triggers="PVELevelTutorialTrigger(1003)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial2_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_3_JC_1,6,191,748,200)</Action>
+    </Step>
+    <Step ID="2">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial2_Step3,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_3_JC_2,10,69,762,299.5)</Action>
+      </Step>    
+    <Step ID="3">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial2_Step2,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_3_JC_3,10,-515,740,297)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="3" Triggers="PVELevelTutorialTrigger(1005)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial3_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_5_JC_1,25,-256,739,281)</Action>
+    </Step>
+    <Step ID="2">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial3_Step2,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_5_JC_2,12,-331,739,272)</Action>
+    </Step>
+    <Step ID="3">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial3_Step3,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_5_JC_3,19,-303,767,200)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="4" Triggers="PVELevelTutorialTrigger(1,0)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial4_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_7_JC_1,94,-637,703,200)</Action>
+    </Step>
+    <Step ID="2">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial4_Step2,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_7_JC_2,28,-222,708,200)</Action>
+    </Step>
+    <Step ID="3">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial4_Step3,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_7_JC_3,-7,-459,756,224)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="5" Triggers="PVELevelTutorialTrigger(1009)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial5_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_1_LEVEL_9_JC_1,12,28,746,177)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="6" Triggers="PVELevelTutorialTrigger(1010)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial6_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_2_LEVEL_1_JC_1,20,-23,757,200)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="7" Triggers="PVELevelTutorialTrigger(1012)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial7_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_2_LEVEL_3_JC_1,-10,400,773,276)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="8" Triggers="PVELevelTutorialTrigger(1015)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial8_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_PVE_CHAPTER_2_LEVEL_6_JC_1,6,313,777,259)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="9" Triggers="EnterPVELevelTutorialTrigger(1,0)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial9_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_TUTORIAL_SELECTDOBBLE_1,6,-235,777,259)</Action>
+    </Step>
+    <Step ID="2">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial9_Step2,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_TUTORIAL_SELECTDOBBLE_2,6,-520,777,259)</Action>
+    </Step>
+  </Tutorial>
+  
+  <Tutorial ID="10" Triggers="EnterPVELevelTutorialTrigger(0,1)">
+    <Step ID="1">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial10_Step1,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_TUTORIAL_SELECTPOWER_1,6,-230,777,259)</Action>
+    </Step>
+    <Step ID="2">
+      <Action>HideMask()</Action>
+      <Action>SetForeground(Tutorial10_Step3,0,0,1542,1920)</Action>
+      <Action>SetContent(LOC_TUTORIAL_SELECTPOWER_2,6,-520,777,259)</Action>
+    </Step>
+  </Tutorial>
+  
+</Tutorials>
