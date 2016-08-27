@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using System.Reflection;
 using System;
+using System.IO;
+using UnityEditor;
+using System.Text;
+using System.Linq;
 public class TestManager : MonoBehaviour {
     void Awake()
     {
@@ -31,8 +36,8 @@ public class TestManager : MonoBehaviour {
         {
             StartCoroutine(EnterProc());
         }
-        GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));
-
+        #region user Profile
+        GUILayout.BeginHorizontal(GUILayout.ExpandWidth(true));    
         if (GUILayout.Button("Load"))
         {
             UserProfile profile = UserProfileManager.instance.Load("testPlayer1");
@@ -45,7 +50,7 @@ public class TestManager : MonoBehaviour {
                 UserProfile.current.account.id = "testPlayer1";
                 UserProfileManager.instance.Save();
             }
-            Debug.Log(string.Format("<color=orange>Load User Name:{0}</color>",UserProfile.current.account.username));
+            Debug.Log(string.Format("<color=orange>Load User Name:{0}</color>", UserProfile.current.account.username));
         }
         if (GUILayout.Button("Set"))
         {
@@ -54,8 +59,10 @@ public class TestManager : MonoBehaviour {
         if (GUILayout.Button("Delete"))
         {
 
-        }
+        } 
         GUILayout.EndHorizontal();
+        #endregion
+        #region Attribute
         if (GUILayout.Button("Reflect"))
         {
             /*获取type三种常见方式
@@ -73,14 +80,112 @@ public class TestManager : MonoBehaviour {
             MethodInfo[] mei = t.GetMethods();
             //private 属性
             PropertyInfo[] pi = t.GetProperties();
-            object o = Activator.CreateInstance(t, 1); 
+            //有参构造
+            object o = Activator.CreateInstance(t, 1);//type.Assembly.CreateInstance()
+            //跨程序集
+            //object o1 = Assembly.Load(".DLL")| Assembly.GetExecutingAssembly().CreateInstance("namespace.class");
 
-            //Debug.Log(string.Format("ConstructorInfo:{0} para: {1}| MemberInfo:{2} FieldInfo:{3} MethodInfo:{4} PropertyInfo{5}"
-            //                         , ci[0].Name,ci[0].GetParameters()[0],mis[0].Name,fi[0].Name,mei[0].Name,pi[0].Name));
 
             MethodInfo mi = typeof(TestManager).GetMethod("OnReflectFunc", BindingFlags.Public | BindingFlags.Static);
             mi.Invoke(null, null);
         }
+        if (GUILayout.Button("exception"))
+        {
+            try
+            {
+                throw new System.DivideByZeroException();
+            }
+            catch (DivideByZeroException e)
+            {
+                Debug.Log("Attempted divide by zero.");
+            }
+
+        } 
+        #endregion
+        #region File IO
+        if (GUILayout.Button("FileIO"))
+        {
+
+            string path = Path.Combine(Application.persistentDataPath, "new");
+            Directory.CreateDirectory(path);
+            if (Directory.Exists(path))
+            {
+                //Directory.Delete(path);
+
+            }
+
+            foreach (var item in Directory.GetFileSystemEntries(Application.persistentDataPath))
+            {
+                Debug.Log(item);
+            }
+            foreach (var item in Directory.GetFiles(Application.persistentDataPath))
+            {
+                Debug.Log(item);
+            }
+            //write
+            string filepath = Path.Combine(path, "new.txt");
+            using (StreamWriter sw = new StreamWriter(filepath))
+            {
+                sw.WriteLine("1123123");
+                sw.WriteLine("2123123");
+            }
+            //read
+            string ret = "";
+            StringBuilder sb = new StringBuilder();
+            using (StreamReader sr = new StreamReader(filepath))
+            {
+                
+                //1
+                //string readbyte = sr.ReadLine();
+                //while(readbyte!=null)
+                //{
+                //    ret += readbyte;
+                //    readbyte = sr.ReadLine();
+
+                //}
+                //2
+                //char[] buffer = new char[1024];
+                //int readbyte = 0;
+                //while ((readbyte = sr.Read(buffer, 0, buffer.Length)) != 0)
+                //{
+                //    sb.Append(buffer);
+                //}
+                //*3*
+                using (BinaryReader br = new BinaryReader(sr.BaseStream))
+                {
+                    byte[] buffer = new byte[5];
+                    int readbyte = 0;
+                    while ((readbyte = br.Read(buffer, 0, buffer.Length)) != 0)
+                    {  
+                        sb.Append(buffer);               
+                    }
+                }
+            }
+            //Encoding.Default.GetString(sb);
+            Debug.Log(string.Format("{0}", sb));
+        } 
+        #endregion
+        #region Simple test
+        if (GUILayout.Button("test"))
+        {
+            string s1 = "qwe";
+            string s2 = s1;
+            s2 = "1";
+            Debug.Log(s1+"|"+s2);
+        }
+        #endregion
+        #region WWW
+        if(GUILayout.Button("WWW"))
+        {
+            StartCoroutine(StartWWWGet());
+        }
+        #endregion
+        #region TempTest
+        if (GUILayout.Button("TempTest"))
+        {
+            
+        }
+        #endregion
 
         GUILayout.EndVertical();
         GUILayout.EndArea();
@@ -98,20 +203,25 @@ public class TestManager : MonoBehaviour {
     {
         Debug.Log("DisPatch event1");
     }
+    void Gen()
+    {
+ 
+    }
     #region UI Process
     IEnumerator EnterProc()
     {
         AsyncDialogResult dr = new AsyncDialogResult();
         MessageBox mb = MessageBox.Show("Message", string.Format("Connection Failed, Do you want to play offline?"), (int)(MBButton.Option1 | MBButton.Option2), "OK", "Retry");
-        mb.onResult = (MessageBox box, MBButton btnId) =>
-        {
-            dr.clicked = btnId;
-        };
-        yield return StartCoroutine(dr);
-        if (dr.clicked == MBButton.Option1)
-        {
-            Debug.Log("Click");
-        }
+        //mb.onResult = (MessageBox box, MBButton btnId) =>
+        //{
+        //    //dr.clicked = btnId;
+        //};
+        //yield return StartCoroutine(dr);
+        //if (dr.clicked == MBButton.Option1)
+        //{
+        //    Debug.Log("Click");
+        //}
+        yield break;
     }
     #endregion
     #region UI Event
@@ -149,6 +259,18 @@ public class TestManager : MonoBehaviour {
         Debug.Log("OnReflectFunc");
     }
     #endregion
+ 
+    IEnumerator StartWWWGet()
+    {
+        string url = "http://pic.sc.chinaz.com/files/pic/pic9/201508/apic14052.jpg";
+        WWW www = new WWW(url);
+        yield return www;
+        //Renderer renderer = UIManager.instance._imgbg.GetComponent<Renderer>();
+
+        UIManager.instance._imgbg.sprite = Sprite.Create(www.texture, new Rect(0,0,www.texture.width,www.texture.height), new Vector2(0.5f, 0.5f));
+        //renderer.material.mainTexture = www.texture;
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     public static void Test()
     {
@@ -156,7 +278,20 @@ public class TestManager : MonoBehaviour {
         LitJson.JsonData data = LitJson.JsonMapper.ToObject(json);
         Debug.Log("JsonData"+(int)data["score"]);
     }
+
+    #region MenuItem
+    [MenuItem("Folder/Open")]
+    public static void OpenFile()
+    {
+        System.Diagnostics.Process.Start(Application.persistentDataPath);
+        //File.Open(Application.persistentDataPath, FileMode.Open);
+    }
+
+    #endregion
 }
+
+
+
 public class ReflectTest
 {
     public ReflectTest(int i)
@@ -173,6 +308,18 @@ public class ReflectTest
     }
     public void Method(int i)
     {
- 
+        RectTransform rect = null;
+        
     }
+}
+
+public class General
+{
+    public General()
+    {
+        name = "";
+        age = -1;
+    }
+   public string name ;
+    public int age;
 }
