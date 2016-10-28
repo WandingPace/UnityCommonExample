@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using System.Reflection;
 using System;
 using System.IO;
-using UnityEditor;
 using System.Text;
 using System.Linq;
 public class TestManager : MonoBehaviour {
@@ -15,7 +14,17 @@ public class TestManager : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
+        int b = 0;
+        int a = 13 / b;
+
         EventDispatcher.Instance.RegistEventListener(EventNames.Event1, OnListener);
+
+        Debug.Log("projectName:"+FileSystemUtil.projectName);
+
+        Debug.Log(PropertiesUtils.GetDescByProperties(Properties.HP));
+
+
+
 	}
 	
 	// Update is called once per frame
@@ -74,9 +83,11 @@ public class TestManager : MonoBehaviour {
              */
             Type t = Type.GetType("ReflectTest");
             ConstructorInfo[] ci = t.GetConstructors();
+            //构造函数、事件、字段、方法和属性
             MemberInfo[] mis = t.GetMembers();
             //public 字段
             FieldInfo[] fi = t.GetFields();
+            //方法
             MethodInfo[] mei = t.GetMethods();
             //private 属性
             PropertyInfo[] pi = t.GetProperties();
@@ -183,7 +194,7 @@ public class TestManager : MonoBehaviour {
         #region TempTest
         if (GUILayout.Button("TempTest"))
         {
-            
+
         }
         #endregion
 
@@ -276,11 +287,10 @@ public class TestManager : MonoBehaviour {
     {
         string json = "{\"score\":1}";
         LitJson.JsonData data = LitJson.JsonMapper.ToObject(json);
-        Debug.Log("JsonData"+(int)data["score"]);
+        //Debug.Log("JsonData"+(int)data["score"]);
     }
 
     #region MenuItem
-    [MenuItem("Folder/Open")]
     public static void OpenFile()
     {
         System.Diagnostics.Process.Start(Application.persistentDataPath);
