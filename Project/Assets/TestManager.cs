@@ -14,8 +14,6 @@ public class TestManager : MonoBehaviour {
     }
 	// Use this for initialization
 	void Start () {
-        int b = 0;
-        int a = 13 / b;
 
         EventDispatcher.Instance.RegistEventListener(EventNames.Event1, OnListener);
 
@@ -26,7 +24,6 @@ public class TestManager : MonoBehaviour {
 
 
 	}
-	
 	// Update is called once per frame
 	void Update () {
         EventDispatcher.Instance.OnTick();
@@ -86,7 +83,12 @@ public class TestManager : MonoBehaviour {
             //构造函数、事件、字段、方法和属性
             MemberInfo[] mis = t.GetMembers();
             //public 字段
-            FieldInfo[] fi = t.GetFields();
+            FieldInfo[] fi = t.GetFields(BindingFlags.Instance|BindingFlags.NonPublic | BindingFlags.Public);
+            foreach (var item in fi)
+            {
+                Debug.Log(item.Name); 
+            }
+            
             //方法
             MethodInfo[] mei = t.GetMethods();
             //private 属性
@@ -310,6 +312,7 @@ public class ReflectTest
     }
 
     private string _testprivate = "private";
+    private string _name = "";
     public string _testPublic = "public";
     public string testprivate
     {
